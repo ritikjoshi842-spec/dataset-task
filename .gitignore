@@ -21,8 +21,7 @@ env/
 .streamlit/secrets.toml.example
 secrets.toml
 
-# Extra documentation / local notes & generated files
-README2.md
+# Local generated files & databases
 *.pdf
 *.log
 *.db
