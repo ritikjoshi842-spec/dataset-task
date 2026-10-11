@@ -1,0 +1,13 @@
+emp_id,department,experience_years,salary,performance_rating,remote
+EMP-001,Engineering,5,105000,4,Yes
+EMP-002,Sales,3,68000,3,No
+EMP-003,Engineering,8,135000,5,Yes
+EMP-004,HR,2,58000,3,No
+EMP-005,Marketing,6,88000,4,Yes
+EMP-006,Sales,1,52000,2,No
+EMP-007,Engineering,12,175000,5,Yes
+EMP-008,Finance,7,96000,4,No
+EMP-009,HR,4,64000,3,No
+EMP-010,Marketing,9,112000,5,Yes
+EMP-011,Finance,3,72000,3,No
+EMP-012,Engineering,4,98000,4,Yes
