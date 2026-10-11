@@ -21,7 +21,8 @@ env/
 .streamlit/secrets.toml.example
 secrets.toml
 
-# Local generated files & databases
+# Local generated files, deployment docs & databases
+DEPLOYMENT.md
 *.pdf
 *.log
 *.db

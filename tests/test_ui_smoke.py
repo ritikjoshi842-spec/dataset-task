@@ -1,10 +1,13 @@
 import pytest
+from pathlib import Path
 from streamlit.testing.v1 import AppTest
 import pandas as pd
 from backend.dataset import clean_and_profile_dataset
 
+APP_PATH = str(Path(__file__).resolve().parent.parent / "app.py")
+
 def test_ui_landing_smoke():
-    at = AppTest.from_file("../app.py", default_timeout=30)
+    at = AppTest.from_file(APP_PATH, default_timeout=30)
     at.run()
     assert not at.exception
     # View starts as landing
@@ -15,7 +18,7 @@ def test_ui_landing_smoke():
             assert not line.startswith("    "), f"Indented line in markdown: {line!r}"
     
 def test_ui_chat_view_smoke():
-    at = AppTest.from_file("../app.py", default_timeout=30)
+    at = AppTest.from_file(APP_PATH, default_timeout=30)
     at.run()
     
     # Inject dataset into session state
@@ -32,7 +35,7 @@ def test_ui_chat_view_smoke():
             assert not line.startswith("    "), f"Indented line in markdown: {line!r}"
 
 def test_ui_theme_toggle():
-    at = AppTest.from_file("../app.py", default_timeout=30)
+    at = AppTest.from_file(APP_PATH, default_timeout=30)
     at.run()
     assert not at.exception
     assert at.session_state.theme == "dark"

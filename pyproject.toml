@@ -1,7 +1,23 @@
 [project]
 name = "dataset-task"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI Dataset Analyser with Persistent Memory and Interactive Visualizations"
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit",
+    "groq",
+    "pandas",
+    "numpy",
+    "scipy",
+    "plotly",
+    "matplotlib",
+    "seaborn",
+    "reportlab",
+    "openpyxl",
+    "xlrd",
+    "pydantic>=2.0",
+    "pytest",
+    "python-dotenv",
+    "psycopg2-binary",
+]

@@ -1,5 +1,5 @@
 from groq import Groq
-from backend.config import GROQ_MODEL
+from backend.config import GROQ_MODEL, get_groq_api_key, get_groq_model, sanitize_db_error
 import os
 import json
 from typing import List, Dict, Any
@@ -7,16 +7,9 @@ from typing import List, Dict, Any
 class LLMClient:
     def __init__(self, api_key: str = None):
         if not api_key:
-            api_key = os.getenv("GROQ_API_KEY")
-            if not api_key:
-                try:
-                    import streamlit as st
-                    if hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
-                        api_key = st.secrets["GROQ_API_KEY"]
-                except Exception:
-                    pass
+            api_key = get_groq_api_key()
         self.api_key = api_key
-        self.model = GROQ_MODEL
+        self.model = get_groq_model() or GROQ_MODEL
         if self.api_key:
             self.client = Groq(api_key=self.api_key)
         else:
@@ -28,7 +21,10 @@ class LLMClient:
         
     def chat(self, messages: List[Dict[str, Any]], tools: List[Dict[str, Any]] = None, tool_choice: str = "auto") -> Dict[str, Any]:
         if not self.client:
-            raise Exception("API key not set.")
+            raise RuntimeError(
+                "GROQ_API_KEY is not configured. Add GROQ_API_KEY to .streamlit/secrets.toml (local) "
+                "or Streamlit Community Cloud -> App Settings -> Secrets (cloud)."
+            )
             
         kwargs = {
             "model": self.model,
@@ -105,11 +101,14 @@ class LLMClient:
                 except Exception:
                     pass
                     
-            raise Exception(f"LLM API Error: {str(e)}")
+            raise Exception(f"LLM API Error: {sanitize_db_error(e)}")
             
     def generate_json(self, messages: List[Dict[str, Any]], response_format={"type": "json_object"}) -> dict:
         if not self.client:
-            raise Exception("API key not set.")
+            raise RuntimeError(
+                "GROQ_API_KEY is not configured. Add GROQ_API_KEY to .streamlit/secrets.toml (local) "
+                "or Streamlit Community Cloud -> App Settings -> Secrets (cloud)."
+            )
             
         try:
             response = self.client.chat.completions.create(
@@ -121,4 +120,4 @@ class LLMClient:
             )
             return json.loads(response.choices[0].message.content)
         except Exception as e:
-            raise Exception(f"LLM API Error: {str(e)}")
+            raise Exception(f"LLM API Error: {sanitize_db_error(e)}")
